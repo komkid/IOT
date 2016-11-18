@@ -24,11 +24,11 @@ WiFiUDP udp;
 Timer t;
 int ntpEvent;
 int toggleEvent;
+int updateInterval = 10000;//millisec.
 
 unsigned int h;
 unsigned int m;
 unsigned int s;
-
 
 void setup()
 {
@@ -144,7 +144,7 @@ void getNTP()
 
     blinking();
 
-    toggleEvent = t.every(10000, timeCheck);
+    toggleEvent = t.every(updateInterval, timeCheck);
     Serial.print("On/OFF event started id=");
     Serial.println(toggleEvent);
     
@@ -154,7 +154,7 @@ void getNTP()
 void timeCheck()
 {
   Serial.println("Checking...");
-  s+=10;
+  s = s + (updateInterval / 1000);
   if((s / 60) > 0) {
     s = s % 60; 
     m++;
