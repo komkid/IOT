@@ -144,7 +144,7 @@ void getNTP()
 
     blinking();
 
-    toggleEvent = t.every(1000, timeCheck);
+    toggleEvent = t.every(10000, timeCheck);
     Serial.print("On/OFF event started id=");
     Serial.println(toggleEvent);
     
@@ -154,9 +154,9 @@ void getNTP()
 void timeCheck()
 {
   Serial.println("Checking...");
-  s++;
-  if(s == 60) {
-    s = 0; 
+  s+=10;
+  if((s / 60) > 0) {
+    s = s % 60; 
     m++;
     if(m == 60){
       m = 0;
