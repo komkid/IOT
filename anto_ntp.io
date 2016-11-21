@@ -5,9 +5,9 @@ unsigned int localPort = 2390;      // local port to listen for UDP packets
 
 /* Don't hardwire the IP address or we won't get the benefits of the pool.
  *  Lookup the IP address for the host name instead */
-//IPAddress timeServerIP(192, 168, 0, 2); // time.nist.gov NTP server
-IPAddress timeServerIP; // time.nist.gov NTP server address
-const char* ntpServerName = "time.nist.gov";
+IPAddress timeServerIP(192, 168, 0, 2); // time.nist.gov NTP server
+//IPAddress timeServerIP; // time.nist.gov NTP server address
+//const char* ntpServerName = "time.nist.gov";
 
 const int NTP_PACKET_SIZE = 48; // NTP time stamp is in the first 48 bytes of the message
 
@@ -27,7 +27,7 @@ unsigned int s;
 const char *user = "komkid";
 
 // key of permission, generated on control panel anto.io
-const char* key = "xxxxxxxxxxxxxxxxxxxxxx";
+const char* key = "xxxxxxxxxxxxxx";
 
 // your default thing.
 const char* thing = "ElectroDargonPlug01";
@@ -81,7 +81,7 @@ unsigned long sendNTPpacket(IPAddress& address)
 void getNTP()
 {
   //get a random server from the pool
-  WiFi.hostByName(ntpServerName, timeServerIP); 
+  //WiFi.hostByName(ntpServerName, timeServerIP); 
 
   sendNTPpacket(timeServerIP); // send an NTP packet to a time server
   // wait to see if a reply is available
@@ -190,6 +190,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  t.update();
 }
 
 /*
@@ -207,7 +208,7 @@ void connectedCB()
     anto.sub("Relay02");
 
     int ntpEvent = t.every(10000, getNTP);
-    Serial.print("ntp event started id=");
+    Serial.print("ntp event started id = ");
     Serial.println(ntpEvent);
 }
 
@@ -239,18 +240,18 @@ void dataCB(String& topic, String& msg)
     if(topic.equals("ControlMode")){
       controlMode = msg.toInt();
       if(controlMode == 1)
-        Serial.println("MODE : AUTO");
+        Serial.print("MODE : AUTO");
       else
-        Serial.println("MODE : MANUAL");
+        Serial.print("MODE : MANUAL");
     } else if(topic.equals("Relay01")){
       Serial.print("RELAY1 : ");
       if(controlMode == 1){
         value = msg.toInt();
         if(value == 1){
-          Serial.println("ON");
+          Serial.print("ON");
           digitalWrite(12, HIGH);
         }else{
-          Serial.println("OFF");
+          Serial.print("OFF");
           digitalWrite(12, LOW);
         }
       }
@@ -259,11 +260,11 @@ void dataCB(String& topic, String& msg)
       if(controlMode == 1){
         value = msg.toInt();
         if(value == 1){
-          Serial.println("ON");
+          Serial.print("ON");
           digitalWrite(13, HIGH);
         }
         else{
-          Serial.println("OFF");
+          Serial.print("OFF");
           digitalWrite(13, LOW);
         }
       }
