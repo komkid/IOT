@@ -1,11 +1,11 @@
 #include <ESP8266WiFi.h>
 #include <time.h>
 
-const char* ssid = "...";                  //ใส่ชื่อ SSID Wifi
-const char* password = "...";          //ใส่รหัสผ่าน
+const char* ssid = "...";                  
+const char* password = "...";          
 
-int timezone = 7 * 3600;                    //ตั้งค่า TimeZone ตามเวลาประเทศไทย
-int dst = 0;                                //กำหนดค่า Date Swing Time
+int timezone = 7 * 3600;                    
+int dst = 0;                                
 struct tm* p_tm;
 
 #include "Timer.h"
@@ -245,8 +245,21 @@ void dataCB(String& topic, String& msg)
         Serial.print(state);
         updateIO();
       }
+    } else if(topic.equals("onTime")){
+      Serial.print("onTime : ");
+      onTimeH = msg.substring(0, 2).toInt();
+      onTimeM = msg.substring(3, 5).toInt();
+      Serial.print(onTimeH);
+      Serial.print(":");
+      Serial.print(onTimeM);
+    } else if(topic.equals("offTime")){
+      Serial.print("offTime : ");
+      offTimeH = msg.substring(0, 2).toInt();
+      offTimeM = msg.substring(3, 5).toInt();
+      Serial.print(offTimeH);
+      Serial.print(":");
+      Serial.print(offTimeM);
     } else Serial.println("Unknown topic!");
-
 }
 
 /*
