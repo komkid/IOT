@@ -74,7 +74,7 @@ void printTimeNow(){
 }
 
 void updateIO() {
-  anto.pub("relay", 1);
+  anto.pub("relay", state);
   if (state == 1) {
     digitalWrite(RELAYPIN, HIGH);
     #ifdef LEDPIN
