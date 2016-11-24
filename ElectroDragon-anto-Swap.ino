@@ -173,22 +173,28 @@ void tikTok(){
   if(controlMode == 1){
     if((h == 5 | h == 7 | h == 9 | h == 11 | h == 13 | h == 15 | h == 17) & m == 0){
       Serial.print("1:ON, 2:OFF");    
+      anto.pub("Relay01", 1);
       updateIO(RELAY01, 1);
       delay(5000);
+      anto.pub("Relay02", 0);
       updateIO(RELAY02, 0);
     }
     
     if((h == 6 | h == 8 | h == 10 | h == 12 | h == 14 | h == 16 | h == 18) & m == 0){
       Serial.print("1:OFF, 2:ON");    
+      anto.pub("Relay01", 0);
       updateIO(RELAY01, 0);
       delay(5000);
+      anto.pub("Relay02", 1);
       updateIO(RELAY02, 1);
     }
   }
 
   if(h > 18 & m == 0){
+    anto.pub("Relay01", 0);
     updateIO(RELAY01, 0);
     delay(5000);
+    anto.pub("Relay02", 0);
     updateIO(RELAY02, 0);
     delay(5000);
   }
